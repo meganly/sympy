@@ -1520,6 +1520,9 @@ class LatexPrinter(Printer):
         else:
             return self._print(expr.p)
 
+    def _print_DecimalRational(self, expr):
+        return self._print_Float(Float(expr))
+
     def _print_Order(self, expr):
         s = self._print(expr.expr)
         if expr.point and any(p != S.Zero for p in expr.point) or \
