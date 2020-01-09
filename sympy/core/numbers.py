@@ -1727,6 +1727,8 @@ class Rational(Number):
         if global_parameters.evaluate:
             if isinstance(other, Integer):
                 return Rational(self.p - self.q*other.p, self.q, 1)
+            elif isinstance(other, DecimalRational):
+                return -other + self
             elif isinstance(other, Rational):
                 return Rational(self.p*other.q - self.q*other.p, self.q*other.q)
             elif isinstance(other, Float):
@@ -1734,11 +1736,14 @@ class Rational(Number):
             else:
                 return Number.__sub__(self, other)
         return Number.__sub__(self, other)
+
     @_sympifyit('other', NotImplemented)
     def __rsub__(self, other):
         if global_parameters.evaluate:
             if isinstance(other, Integer):
                 return Rational(self.q*other.p - self.p, self.q, 1)
+            elif isinstance(other, DecimalRational):
+                return -self + other
             elif isinstance(other, Rational):
                 return Rational(self.q*other.p - self.p*other.q, self.q*other.q)
             elif isinstance(other, Float):
@@ -1746,6 +1751,7 @@ class Rational(Number):
             else:
                 return Number.__rsub__(self, other)
         return Number.__rsub__(self, other)
+
     @_sympifyit('other', NotImplemented)
     def __mul__(self, other):
         if global_parameters.evaluate:
@@ -2087,6 +2093,32 @@ class DecimalRational(Rational):
         return Number.__add__(self, other)
     __radd__ = __add__
 
+    @_sympifyit('other', NotImplemented)
+    def __sub__(self, other):
+        if global_parameters.evaluate:
+            if isinstance(other, Integer):
+                return self.__class__(self.p - self.q*other.p, self.q, 1)
+            elif isinstance(other, Rational):
+                return self.__class__(self.p*other.q - self.q*other.p, self.q*other.q)
+            elif isinstance(other, Float):
+                return -other + self
+            else:
+                return Number.__sub__(self, other)
+        return Number.__sub__(self, other)
+
+    @_sympifyit('other', NotImplemented)
+    def __rsub__(self, other):
+        if global_parameters.evaluate:
+            if isinstance(other, Integer):
+                return self.__class__(self.q*other.p - self.p, self.q, 1)
+            elif isinstance(other, Rational):
+                return self.__class__(self.q*other.p - self.p*other.q, self.q*other.q)
+            elif isinstance(other, Float):
+                return -self + other
+            else:
+                return Number.__rsub__(self, other)
+        return Number.__rsub__(self, other)
+
 
 class Integer(Rational):
     """Represents integer numbers of any size.
@@ -2227,6 +2259,8 @@ class Integer(Rational):
                 return Integer(self.p - other)
             elif isinstance(other, Integer):
                 return Integer(self.p - other.p)
+            elif isinstance(other, DecimalRational):
+                return -other + self
             elif isinstance(other, Rational):
                 return Rational(self.p*other.q - other.p, other.q, 1)
             return Rational.__sub__(self, other)
@@ -2236,6 +2270,8 @@ class Integer(Rational):
         if global_parameters.evaluate:
             if isinstance(other, int):
                 return Integer(other - self.p)
+            elif isinstance(other, DecimalRational):
+                return -self + other
             elif isinstance(other, Rational):
                 return Rational(other.p - self.p*other.q, other.q, 1)
             return Rational.__rsub__(self, other)
