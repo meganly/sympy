@@ -1090,6 +1090,8 @@ def fraction(expr, exact=False):
                 denom.append(d)
             else:
                 numer.append(term)
+        elif term.is_DecimalRational:
+            numer.append(term)
         elif term.is_Rational and not term.is_Integer:
             if term.p != 1:
                 numer.append(term.p)
