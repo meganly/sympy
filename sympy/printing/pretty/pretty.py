@@ -4,7 +4,7 @@ from sympy.core import S
 from sympy.core.containers import Tuple
 from sympy.core.function import _coeff_isneg
 from sympy.core.mul import Mul
-from sympy.core.numbers import Number, Rational
+from sympy.core.numbers import Number, Rational, Float
 from sympy.core.power import Pow
 from sympy.core.symbol import Symbol
 from sympy.core.sympify import SympifyError
@@ -1865,7 +1865,7 @@ class PrettyPrinter(Printer):
                     b.append(Pow(item.base, -item.exp, evaluate=False))
                 else:
                     b.append(Pow(item.base, -item.exp))
-            elif item.is_Rational and item is not S.Infinity:
+            elif item.is_Rational and not item.is_DecimalRational and item is not S.Infinity:
                 if item.p != 1:
                     a.append( Rational(item.p) )
                 if item.q != 1:
@@ -1987,6 +1987,14 @@ class PrettyPrinter(Printer):
 
     def _print_Rational(self, expr):
         result = self.__print_numer_denom(expr.p, expr.q)
+
+        if result is not None:
+            return result
+        else:
+            return self.emptyPrinter(expr)
+
+    def _print_DecimalRational(self, expr):
+        result = self._print_Float(Float(expr))
 
         if result is not None:
             return result
