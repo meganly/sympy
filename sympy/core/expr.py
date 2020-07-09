@@ -133,6 +133,7 @@ class Expr(Basic, EvalfMixin):
         return self._args
 
     def __eq__(self, other):
+        from sympy.core.numbers import DecimalRational
         try:
             other = _sympify(other)
             if not isinstance(other, Expr):
@@ -152,7 +153,7 @@ class Expr(Basic, EvalfMixin):
                 continue
             if a.is_Number and type(a) != type(b):
                 # allow DecimalRational and Rational numbers to be equal
-                if a.is_DecimalRational or b.is_DecimalRational:
+                if isinstance(a, DecimalRational) or isinstance(b, DecimalRational):
                     return True
                 return False
         return True

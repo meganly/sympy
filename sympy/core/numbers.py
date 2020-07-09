@@ -2083,8 +2083,6 @@ class DecimalRational(Rational):
     '0.1'
 
     """
-    is_DecimalRational = True
-
     _op_priority = 10.0002
 
     @cacheit

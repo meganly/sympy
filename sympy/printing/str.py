@@ -4,7 +4,7 @@ A Printer for generating readable representation of most sympy classes.
 
 from typing import Any, Dict
 
-from sympy.core import S, Float, Rational, Pow, Basic, Mul, Number
+from sympy.core import S, Float, Rational, DecimalRational, Pow, Basic, Mul, Number
 from sympy.core.mul import _keep_coeff
 from .printer import Printer, print_function
 from sympy.printing.precedence import precedence, PRECEDENCE
@@ -284,7 +284,7 @@ class StrPrinter(Printer):
                     if len(item.args[0].args) != 1 and isinstance(item.base, Mul):   # To avoid situations like #14160
                         pow_paren.append(item)
                     b.append(Pow(item.base, -item.exp))
-            elif item.is_Rational and not item.is_DecimalRational and item is not S.Infinity:
+            elif isinstance(item, Rational) and not isinstance(item, DecimalRational) and item is not S.Infinity:
                 if item.p != 1:
                     a.append(Rational(item.p))
                 if item.q != 1:
