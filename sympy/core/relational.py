@@ -7,6 +7,7 @@ from .basic import Basic
 from .evalf import EvalfMixin
 from .function import AppliedUndef
 from .sympify import _sympify, SympifyError
+from .numbers import Rational
 from .parameters import global_parameters
 from sympy.core.logic import fuzzy_bool, fuzzy_xor, fuzzy_and, fuzzy_not
 from sympy.logic.boolalg import Boolean, BooleanAtom
@@ -251,6 +252,34 @@ class Relational(Boolean, EvalfMixin):
                 return r.reversed.reversedsign
 
         return r
+
+    @property
+    def standard_form(self):
+        """Returns the standard form of a linear relational
+        with rational coefficients by expanding the difference
+        of the left and right hand sides, clearing denominators,
+        and dividing out common factors from the numerators.
+
+        Examples
+        ========
+
+        >>> from sympy.abc import x, y
+        >>> Eq(y, x/2 + 3).standard_form
+        Eq(x - 2*y + 6, 0)
+        """
+        from sympy.polys.polytools import lcm, gcd, LC
+        from sympy.simplify.radsimp import numer, denom
+
+        lhs = (self.lhs-self.rhs).expand()
+        coeffs_dict = lhs.as_coefficients_dict()
+        coeffs = list(coeffs_dict.values())
+        numers = [numer(num) for num in coeffs]
+        denoms = [denom(num) for num in coeffs]
+        lhs *= abs(Rational(lcm(denoms),gcd(numers)))
+        self = Relational.__new__(self.func, lhs,0)
+        if not lhs.is_constant() and LC(lhs) < 0:
+            self = self.reversedsign
+        return self
 
     def equals(self, other, failing_expression=False):
         """Return True if the sides of the relationship are mathematically
