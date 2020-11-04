@@ -264,6 +264,7 @@ class Relational(Boolean, EvalfMixin):
         ========
 
         >>> from sympy.abc import x, y
+        >>> from sympy import Eq
         >>> Eq(y, x/2 + 3).standard_form
         Eq(x - 2*y + 6, 0)
         """
