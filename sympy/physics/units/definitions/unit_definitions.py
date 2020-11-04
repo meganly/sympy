@@ -166,6 +166,19 @@ cl.set_global_relative_scale_factor(Rational(1, 100), liter)
 ml = milliliter = milliliters = Quantity("milliliter")
 ml.set_global_relative_scale_factor(Rational(1, 1000), liter)
 
+quart = quarts = Quantity("quarts")
+
+fluid_ounce = fluid_ounces = Quantity("fluid_ounce", latex_repr=r"\text{fl oz}")
+fluid_ounce.set_global_relative_scale_factor(Rational(1,32), quart)
+
+cup = cups = Quantity("cups")
+cup.set_global_relative_scale_factor(8, fluid_ounce)
+
+pint = pints = Quantity("pints")
+pint.set_global_relative_scale_factor(2, cup)
+
+gal = gallon = gallons = Quantity("gallon")
+gal.set_global_relative_scale_factor(4, quart)
 
 # Common time units
 
@@ -289,6 +302,10 @@ kilopascal.set_global_relative_scale_factor(kilo, Pa)
 bar = bars = Quantity("bar", abbrev="bar")
 
 pound = pounds = Quantity("pound")  # exact
+pound.set_global_relative_scale_factor(Rational(45359237, 100000000), kg)
+
+oz = ounce = ounces = Quantity("ounce", abbrev="oz")
+ounce.set_global_relative_scale_factor(Rational(1, 16), pound)
 
 psi = Quantity("psi")
 
@@ -297,11 +314,8 @@ mmHg = torr = Quantity("mmHg")
 
 atmosphere.set_global_relative_scale_factor(101325, pascal)
 bar.set_global_relative_scale_factor(100, kPa)
-pound.set_global_relative_scale_factor(Rational(45359237, 100000000), kg)
 
 mmu = mmus = milli_mass_unit = Quantity("milli_mass_unit")
-
-quart = quarts = Quantity("quart")
 
 
 # Other convenient units and magnitudes

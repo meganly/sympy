@@ -1,9 +1,10 @@
 from sympy import Pow, Tuple, pi, sstr, sympify, symbols
 from sympy.physics.units import (
-    G, centimeter, coulomb, day, degree, gram, hbar, hour, inch, joule, kelvin,
-    kilogram, kilometer, length, meter, mile, minute, newton, planck,
-    planck_length, planck_mass, planck_temperature, planck_time, radians,
-    second, speed_of_light, steradian, time, km)
+    centimeter, coulomb, cup, day, degree, fluid_ounce, G, gallon,
+    gram, hbar, hour, inch, joule, kelvin, kilogram, kilometer,
+    km, length, meter, mile, minute, newton, ounce, pint, planck,
+    planck_length, planck_mass, planck_temperature, planck_time,
+    pound, quart, radians, second, speed_of_light, steradian, time)
 from sympy.physics.units.util import convert_to, check_dimensions
 from sympy.testing.pytest import raises
 
@@ -63,6 +64,10 @@ def test_convert_to_quantities():
     assert convert_to(radians, [meter, degree]) == 180*degree/pi
     assert convert_to(pi*radians, degree) == 180*degree
     assert convert_to(pi, degree) == 180*degree
+
+    assert convert_to(gallon, fluid_ounce) == 128*fluid_ounce
+    assert convert_to(quart + pint, cup) == 6*cup
+    assert convert_to(32*ounce, pound) == 2*pound
 
 
 def test_convert_to_tuples_of_quantities():

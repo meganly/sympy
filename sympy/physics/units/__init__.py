@@ -131,6 +131,11 @@ from .definitions import (
     dl, deciliter, deciliters,
     cl, centiliter, centiliters,
     ml, milliliter, milliliters,
+    quart, quarts,
+    fluid_ounce, fluid_ounces,
+    cup, cups,
+    pint, pints,
+    gal, gallon, gallons,
     ms, millisecond, milliseconds,
     us, microsecond, microseconds,
     ns, nanosecond, nanoseconds,
@@ -171,11 +176,11 @@ from .definitions import (
     kPa,
     bar, bars,
     pound, pounds,
+    oz, ounce, ounces,
     psi,
     dHg0,
     mmHg, torr,
     mmu, mmus, milli_mass_unit,
-    quart, quarts,
     ly, lightyear, lightyears,
     au, astronomical_unit, astronomical_units,
     planck_mass,
@@ -235,7 +240,7 @@ def find_unit(quantity, unit_system="SI"):
     >>> u.find_unit('volt')
     ['volt', 'volts', 'electronvolt', 'electronvolts', 'planck_voltage']
     >>> u.find_unit(u.inch**3)[:5]
-    ['l', 'cl', 'dl', 'ml', 'liter']
+    ['l', 'cl', 'dl', 'ml', 'cup']
     """
     unit_system = UnitSystem.get_unit_system(unit_system)
 
@@ -363,6 +368,11 @@ __all__ = [
     'dl', 'deciliter', 'deciliters',
     'cl', 'centiliter', 'centiliters',
     'ml', 'milliliter', 'milliliters',
+    'quart', 'quarts',
+    'fluid_ounce', 'fluid_ounces',
+    'cup', 'cups',
+    'pint', 'pints',
+    'gal', 'gallon', 'gallons',
     'ms', 'millisecond', 'milliseconds',
     'us', 'microsecond', 'microseconds',
     'ns', 'nanosecond', 'nanoseconds',
@@ -403,11 +413,11 @@ __all__ = [
     'kPa',
     'bar', 'bars',
     'pound', 'pounds',
+    'oz', 'ounce', 'ounces',
     'psi',
     'dHg0',
     'mmHg', 'torr',
     'mmu', 'mmus', 'milli_mass_unit',
-    'quart', 'quarts',
     'ly', 'lightyear', 'lightyears',
     'au', 'astronomical_unit', 'astronomical_units',
     'planck_mass',
